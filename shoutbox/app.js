@@ -38,4 +38,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.get('/post', entries.form);
+app.post('/post', entries.submit);
+
 module.exports = app;

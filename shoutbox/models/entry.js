@@ -7,6 +7,17 @@ class Entry {
     }
   }
 
+  static getRange (from, to, cb) {
+    db.lrange('entries', from, to, (err, items) => {
+      if(err) return cd(err);
+      let entries = [];
+      items.forEach((item) => {
+        entries.push(JSON.parse(item));
+      });
+      cb(null, entries);
+    });
+  }
+
   save(cb) {
     const entryJSON = JSON.stringify(this);
     db.lpush(
