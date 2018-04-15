@@ -1,8 +1,10 @@
-const express = require('express'),
+const config = require('./config'),
+      express = require('express'),
       morgan = require('morgan'),
       compress = require('compression'),
       bodyParser = require('body-parser'),
-      methodOverride = require('method-override');
+      methodOverride = require('method-override'),
+      session = require('express-session');
 
 module.exports = function () {
   const app = express();
@@ -19,6 +21,12 @@ module.exports = function () {
 
   app.use(bodyParser.json());
   app.use(methodOverride());
+
+  app.use(session({
+    saveUnitialized: true,
+    resave: true,
+    secret: config.sessionSecret
+  }));
 
   app.set('views', './app/views');
   app.set('view engine', 'ejs');
