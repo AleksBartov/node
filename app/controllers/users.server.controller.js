@@ -11,3 +11,29 @@ exports.create = function (req, res, next) {
     }
   });
 };
+
+exports.list = function(req, res, next) {
+  User.find({}, (err, users) => {
+    if (err) {
+      return next(err);
+    } else {
+      res.status(200).json(users);
+    }
+  });
+};
+
+exports.read = function(req, res) {
+  res.json(req.user);
+};
+
+exports.userByID = function(req, res, next, id) {
+  User.findOne({
+    email: id
+  }, (err, user) => {
+    if (err) {
+      return next(err);
+    } else {
+      req.user = user;
+    }
+  });
+};
